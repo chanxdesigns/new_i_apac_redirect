@@ -33,6 +33,7 @@ class RespDataController extends Controller
             $this->getLinks();
             $this->storeData();
             $this->prjUpdate();
+            $this->redirect();
         }
     }
 
@@ -99,6 +100,16 @@ class RespDataController extends Controller
      * Redirect to the redirect link
      */
     public function redirect () {
-
+        //Redirect to the set redirect links
+        if ($this->status === "Complete")
+        {
+            return redirect($this->c_link);
+        } elseif ($this->status === "Incomplete")
+        {
+            redirect($this->t_link);
+        } elseif ($this->status === "Quotafull")
+        {
+            redirect($this->q_link);
+        }
     }
 }
