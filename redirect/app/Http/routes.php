@@ -16,17 +16,4 @@ Route::get('/{respid}/completed', 'ViewController@completed')->name('completed')
 Route::get('/{respid}/terminated', 'ViewController@terminated')->name('terminated');
 Route::get('/{respid}/quotafull', 'ViewController@quotafull')->name('quotafull');
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| This route group applies the "web" middleware group to every route
-| it contains. The "web" middleware group is defined in your HTTP
-| kernel and includes session state, CSRF protection, and more.
-|
-*/
 
-Route::group(['middleware' => ['web']], function () {
-    //
-});
