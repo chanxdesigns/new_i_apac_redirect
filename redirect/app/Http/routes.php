@@ -12,6 +12,9 @@
 */
 
 Route::get('/{status}/{projectid}/{respid}/{country}', 'RespDataController@main');
+Route::get('/{respid}/completed', 'ViewController@completed')->name('completed');
+Route::get('/{respid}/terminated', 'ViewController@terminated')->name('terminated');
+Route::get('/{respid}/quotafull', 'ViewController@quotafull')->name('quotafull');
 
 /*
 |--------------------------------------------------------------------------
