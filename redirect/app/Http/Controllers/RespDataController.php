@@ -126,7 +126,6 @@ class RespDataController extends Controller
         //Redirect to the set redirect links
         if ($this->status === "Complete")
         {
-
             if (empty($this->c_link)) {
                 return redirect()->route('completed',[$this->respid]);
             } else {
