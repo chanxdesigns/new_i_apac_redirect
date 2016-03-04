@@ -33,5 +33,14 @@ h6 {
     font-size: 20px;
     font-family: "Lato", sans-serif;
     color: white;
+    &.success {
+      color: #40d47e;
+    }
+    &.failed {
+      color: #e74c3c;
+    }
+    &.quotafull {
+      color: #e67e22;
+    }
   }
 }

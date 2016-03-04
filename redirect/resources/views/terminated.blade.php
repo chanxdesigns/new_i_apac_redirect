@@ -8,7 +8,7 @@
 <body>
 <div class="notifier">
     <h1><span>User ID:</span> {{$respid}}</h1>
-    <p>Thanks for Participating, but You are not Eligible.</p>
+    <p class="failed">Thanks for Participating, but You are not Eligible.</p>
 </div>
 </body>
 </html>

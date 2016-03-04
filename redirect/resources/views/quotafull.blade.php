@@ -8,7 +8,7 @@
 <body>
 <div class="notifier">
     <h1><span>User ID:</span> {{$respid}}</h1>
-    <p>Thanks for Participating but unfortunately your Quota has been filled.</p>
+    <p class="quotafull">Thanks for Participating but unfortunately your Quota has been filled.</p>
 </div>
 </body>
 </html>

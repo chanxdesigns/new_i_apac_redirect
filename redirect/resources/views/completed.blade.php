@@ -8,7 +8,7 @@
 <body>
 <div class="notifier">
     <h1><span>User ID:</span> {{$respid}}</h1>
-    <p>Thanks for Completing the Survey Successfully</p>
+    <p class="success">Thanks for Completing the Survey Successfully</p>
 </div>
 </body>
 </html>
