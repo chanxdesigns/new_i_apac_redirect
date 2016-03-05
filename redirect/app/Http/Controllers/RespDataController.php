@@ -73,7 +73,7 @@ class RespDataController extends Controller
     }
 
     /**
-     * Project related sheet updation
+     * Project related sheet update
      */
     public function prjUpdate () {
         $status = "";
