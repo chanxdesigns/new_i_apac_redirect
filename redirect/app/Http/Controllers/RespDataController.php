@@ -16,6 +16,7 @@ class RespDataController extends Controller
     private $respid;
     private $country;
     private $projectid;
+    private $about;
     private $t_link;
     private $c_link;
     private $q_link;
@@ -30,7 +31,7 @@ class RespDataController extends Controller
 
         //Run the starting function
         if ($this->verifyId()) {
-            $this->getLinks();
+            $this->getLinksAndAbout();
             $this->storeData();
             $this->prjUpdate();
             return $this->redirect();
@@ -45,13 +46,14 @@ class RespDataController extends Controller
         return count($status) > 0 ? false : true;
     }
     /**
-     * Get Redirect Links from Database
+     * Get Redirect Links and Project About from Database
      **/
-    public function getLinks () {
-        $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link')->where('Project ID', '=', $this->projectid)->get();
+    public function getLinksAndAbout () {
+        $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->get();
         $this->t_link = $links[0]->T_Link;
         $this->c_link = $links[0]->C_Link;
         $this->q_link = $links[0]->Q_Link;
+        $this->about  = $links[0]->About;
     }
 
     /**
@@ -105,6 +107,7 @@ class RespDataController extends Controller
             [
                 "respid" => $this->respid,
                 "projectid" => $this->projectid,
+                "about" => $this->about,
                 "Languageid" => $country,
                 "status" => $this->status,
                 "IP" => $ip,
