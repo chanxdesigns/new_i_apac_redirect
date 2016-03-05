@@ -58,13 +58,54 @@ class RespDataController extends Controller
      * Store Data into the Server
      **/
     public function storeData () {
+        $country = "";
+
+        switch ($this->country) {
+            case "ZH":
+                $country = "China";
+                break;
+            case "JP":
+                $country = "Japan";
+                break;
+            case  "ROK":
+                $country = "South Korea";
+                break;
+            case "PH":
+                $country = "Philippines";
+                break;
+            case "INDO":
+                $country = "Indonesia";
+                break;
+            case "MY":
+                $country = "Malaysia";
+                break;
+            case "VN":
+                $country = "Vietnam";
+                break;
+            case "IN":
+                $country = "India";
+                break;
+            case "TH":
+                $country = "Thailand";
+                break;
+            case "HK":
+                $country = "Hong Kong";
+                break;
+            case "SG":
+                $country = "Singapore";
+                break;
+            case "UAE":
+                $country = "UAE";
+                break;
+        }
+
         $ip = $_SERVER['REMOTE_ADDR'];
         //Store the respondent project details data to the Resp Counter table
         RespCounter::create(
             [
                 "respid" => $this->respid,
                 "projectid" => $this->projectid,
-                "Languageid" => $this->country,
+                "Languageid" => $country,
                 "status" => $this->status,
                 "IP" => $ip,
                 "enddate" => Carbon::now()->timezone('Asia/Kolkata')
