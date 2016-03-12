@@ -60,8 +60,8 @@ class RespDataController extends Controller
      * Store Data into the Server
      **/
     public function storeData () {
+        //Translate Country Code to Country Name
         $country = "";
-
         switch ($this->country) {
             case "ZH":
                 $country = "China";
@@ -100,7 +100,7 @@ class RespDataController extends Controller
                 $country = "UAE";
                 break;
         }
-
+        //IP Address Of the respondent
         $ip = $_SERVER['REMOTE_ADDR'];
         //Store the respondent project details data to the Resp Counter table
         RespCounter::create(
