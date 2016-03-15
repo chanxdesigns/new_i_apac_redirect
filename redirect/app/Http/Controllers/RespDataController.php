@@ -145,6 +145,8 @@ class RespDataController extends Controller
         if (!empty($this->c_link) || !empty($this->q_link) || !empty($this->t_link)) {
             //Store the links in URL Array
             $url = [$this->c_link, $this->q_link, $this->t_link];
+            var_dump($url);
+            exit;
             //Edit the links to accept User ID and Project ID
             for ($i = 0; $i < count($url); $i++) {
                 //Get Individual URL form the array
@@ -173,8 +175,6 @@ class RespDataController extends Controller
             if (empty($this->c_link)) {
                 return redirect()->route('completed',[$this->respid]);
             } else {
-                var_dump($url[0]);
-                exit;
                 return redirect()->away($url[0]);
             }
         } elseif ($this->status === "Incomplete")
