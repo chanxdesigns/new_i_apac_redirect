@@ -17,6 +17,7 @@ class RespDataController extends Controller
     private $country;
     private $projectid;
     private $about;
+    private $vendor;
     private $t_link;
     private $c_link;
     private $q_link;
@@ -28,6 +29,7 @@ class RespDataController extends Controller
         $this->projectid = $projectid;
         $this->respid = $respid;
         $this->country = $country;
+        $this->vendor = substr($respid,13);
 
         //Run the starting function
         if ($this->verifyId()) {
@@ -42,6 +44,7 @@ class RespDataController extends Controller
      * Verify Passed UID in database
      **/
     public function verifyId () {
+        //Verify UID from Database
         $status = DB::table('resp_counters')->where('respid', '=', $this->respid)->where('projectid', '=', $this->projectid)->get();
         return count($status) > 0 ? false : true;
     }
@@ -49,7 +52,8 @@ class RespDataController extends Controller
      * Get Redirect Links and Project About from Database
      **/
     public function getLinksAndAbout () {
-        $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->get();
+        //Get Links From DB
+        $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->where('Vendor', '=', $this->vendor)->get();
         $this->t_link = $links[0]->T_Link;
         $this->c_link = $links[0]->C_Link;
         $this->q_link = $links[0]->Q_Link;
@@ -150,17 +154,9 @@ class RespDataController extends Controller
                 //Get Individual URL form the array
                 $link = $url[$i];
                 //Explode the URL into Array indices with "$" as delimiter
-                $ex = explode("$", $link);
-                //Check for "respid" text in the URL indices Array
-                if (in_array("respid", $ex)) {
-                    for ($v = 0; $v < count($ex); $v++) {
-                        if ($ex[$v] === "respid") {
-                            //For every "respid"
-                            //Replace it using the User ID in the URL
-                            $ex[$v] = $this->respid;
-                        }
-                    }
-                }
+                $ex = explode("respid", $link);
+                //Append the UID to the link
+                $ex[0] = $ex[0].$this->respid;
                 //Join the URL indices array into a single URL link
                 $ex = implode("", $ex);
                 //Insert the Edited Link to the URL array
