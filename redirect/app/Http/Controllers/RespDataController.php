@@ -173,6 +173,8 @@ class RespDataController extends Controller
             if (empty($this->c_link)) {
                 return redirect()->route('completed',[$this->respid]);
             } else {
+                var_dump($url[0]);
+                exit;
                 return redirect()->away($url[0]);
             }
         } elseif ($this->status === "Incomplete")
