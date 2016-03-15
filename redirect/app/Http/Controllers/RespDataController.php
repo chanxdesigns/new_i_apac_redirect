@@ -145,14 +145,13 @@ class RespDataController extends Controller
         if (!empty($this->c_link) || !empty($this->q_link) || !empty($this->t_link)) {
             //Store the links in URL Array
             $url = [$this->c_link, $this->q_link, $this->t_link];
-            var_dump($url);
-            exit;
             //Edit the links to accept User ID and Project ID
             for ($i = 0; $i < count($url); $i++) {
                 //Get Individual URL form the array
                 $link = $url[$i];
                 //Explode the URL into Array indices with "$" as delimiter
                 $ex = explode("$", $link);
+                var_dump($ex);
                 //Check for "respid" text in the URL indices Array
                 if (in_array("respid", $ex)) {
                     for ($v = 0; $v < count($ex); $v++) {
@@ -160,13 +159,17 @@ class RespDataController extends Controller
                             //For every "respid"
                             //Replace it using the User ID in the URL
                             $ex[$v] = $this->respid;
+                            var_dump($ex[$v]);
                         }
                     }
                 }
                 //Join the URL indices array into a single URL link
                 $ex = implode("", $ex);
+                var_dump($ex);
                 //Insert the Edited Link to the URL array
                 $url[$i] = $ex;
+                var_dump($url[$i]);
+                exit;
             }
         }
         //Redirect to the set redirect links
