@@ -54,7 +54,7 @@ class RespDataController extends Controller
     public function getLinksAndAbout () {
         //Get Links From DB
         $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->where('Vendor', '=', $this->vendor)->where('Country','=', $this->country)->get();
-        var_dump($this->country,$links);
+        var_dump($links,$this->country);
         $this->t_link = $links[0]->T_Link;
         $this->c_link = $links[0]->C_Link;
         $this->q_link = $links[0]->Q_Link;
@@ -66,43 +66,43 @@ class RespDataController extends Controller
      **/
     public function storeData () {
         //Translate Country Code to Country Name
-        $country = "";
-        switch ($this->country) {
+        $country = $this->country;
+        switch ($country) {
             case "ZH":
-                $country = "China";
+                $this->country = "China";
                 break;
             case "JP":
-                $country = "Japan";
+                $this->country = "Japan";
                 break;
             case  "ROK":
-                $country = "South Korea";
+                $this->country = "South Korea";
                 break;
             case "PH":
-                $country = "Philippines";
+                $this->country = "Philippines";
                 break;
             case "INDO":
-                $country = "Indonesia";
+                $this->country = "Indonesia";
                 break;
             case "MY":
-                $country = "Malaysia";
+                $this->country = "Malaysia";
                 break;
             case "VN":
-                $country = "Vietnam";
+                $this->country = "Vietnam";
                 break;
             case "IN":
-                $country = "India";
+                $this->country = "India";
                 break;
             case "TH":
-                $country = "Thailand";
+                $this->country = "Thailand";
                 break;
             case "HK":
-                $country = "Hong Kong";
+                $this->country = "Hong Kong";
                 break;
             case "SG":
-                $country = "Singapore";
+                $this->country = "Singapore";
                 break;
             case "UAE":
-                $country = "UAE";
+                $this->country = "UAE";
                 break;
         }
         //IP Address Of the respondent
@@ -112,7 +112,7 @@ class RespDataController extends Controller
             [
                 "respid" => $this->respid,
                 "projectid" => $this->projectid,
-                "Languageid" => $country,
+                "Languageid" => $this->country,
                 "status" => $this->status,
                 "IP" => $ip,
                 "enddate" => Carbon::now()->timezone('Asia/Kolkata')
