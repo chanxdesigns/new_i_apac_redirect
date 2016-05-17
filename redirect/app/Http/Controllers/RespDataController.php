@@ -154,11 +154,12 @@ class RespDataController extends Controller
                 //Get Individual URL form the array
                 $link = $url[$i];
                 //Explode the URL into Array indices with "$" as delimiter
-                $ex = explode("respid", $link);
+                $ex = explode('$respid', $link);
                 //Append the UID to the link
                 $ex[0] = $ex[0].$this->respid;
                 //Join the URL indices array into a single URL link
                 $ex = implode("", $ex);
+                var_dump($ex);
                 //Insert the Edited Link to the URL array
                 $url[$i] = $ex;
             }
