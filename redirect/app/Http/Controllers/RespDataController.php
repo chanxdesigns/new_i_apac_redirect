@@ -159,7 +159,6 @@ class RespDataController extends Controller
                 $ex[0] = $ex[0].$this->respid;
                 //Join the URL indices array into a single URL link
                 $ex = implode("", $ex);
-                var_dump($ex);
                 //Insert the Edited Link to the URL array
                 $url[$i] = $ex;
             }
