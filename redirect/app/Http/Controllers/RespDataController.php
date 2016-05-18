@@ -106,8 +106,8 @@ class RespDataController extends Controller
                 break;
         }
         //IP Address Of the respondent
-        $ip = $_SERVER['REMOTE_ADDR'];
-        {{dump($ip);}}
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        {{dump($_SERVER);}}
         exit();
         //Store the respondent project details data to the Resp Counter table
         RespCounter::create(
