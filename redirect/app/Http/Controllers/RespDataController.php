@@ -36,9 +36,6 @@ class RespDataController extends Controller
             $this->vendor = $vendor;
         }
 
-        var_dump($this->vendor);
-        exit();
-
         //Run the starting function
         if ($this->verifyId()) {
             $this->storeData();
