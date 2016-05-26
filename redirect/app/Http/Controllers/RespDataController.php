@@ -23,13 +23,21 @@ class RespDataController extends Controller
     private $q_link;
 
     //Main Function
-    public function main ($status,$projectid,$respid,$country) {
+    public function main ($status,$projectid,$vendor="",$respid,$country) {
         //Store the passed-in URL parameters to private properties
         $this->status = $status;
         $this->projectid = $projectid;
         $this->respid = $respid;
         $this->country = $country;
-        $this->vendor = substr($respid,13);
+        //Check For Hard-Coded Route Vendor ID Presence
+        if (empty($vendor)) {
+            $this->vendor = substr($respid,13);
+        } else {
+            $this->vendor = $vendor;
+        }
+
+        var_dump($this->vendor);
+        exit();
 
         //Run the starting function
         if ($this->verifyId()) {
@@ -54,7 +62,7 @@ class RespDataController extends Controller
     public function getLinksAndAbout () {
         //Get Links From DB
         $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->where('Vendor', '=', $this->vendor)->where('Country','=', $this->country)->get();
-        var_dump($links,$this->country);
+        //var_dump($links,$this->country);
         $this->t_link = $links[0]->T_Link;
         $this->c_link = $links[0]->C_Link;
         $this->q_link = $links[0]->Q_Link;
