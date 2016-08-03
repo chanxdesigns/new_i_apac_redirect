@@ -23,18 +23,21 @@ class RespDataController extends Controller
     private $q_link;
 
     //Main Function
-    public function main ($status,$projectid,$respid,$country,$vendor="") {
+    public function main ($status,$projectid,$respid,$country) {
         //Store the passed-in URL parameters to private properties
         $this->status = $status;
         $this->projectid = $projectid;
         $this->respid = $respid;
         $this->country = $country;
         //Check For Hard-Coded Route Vendor ID Presence
-        if (empty($vendor)) {
-            $this->vendor = substr($respid,13);
+
+        if (preg_match('/\d{6}[A-Z]\d{10}$/i', $respid)) {
+			$this->vendor = 'RICKIE';
+        } elseif (preg_match('/\d{5}\-[A-Z0-9]{16,20}$/i', $respid)) {
+			$this->vendor = 'PL';
         } else {
-            $this->vendor = $vendor;
-        }
+			$this->vendor = substr($respid,13);
+		}
 
         //Run the starting function
         if ($this->verifyId()) {
