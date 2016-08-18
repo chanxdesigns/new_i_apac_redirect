@@ -112,6 +112,18 @@ class RespDataController extends Controller
             case "UAE":
                 $this->country = "UAE";
                 break;
+            case "KSA":
+                $this->country = "Saudi Arabia";
+                break;
+            case "JO":
+                $this->country = "Jordan";
+                break;
+            case "SA":
+                $this->country = "South Africa";
+                break;
+            case "AUS":
+                $this->country = "Australia";
+                break;
         }
         //IP Address Of the respondent
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
