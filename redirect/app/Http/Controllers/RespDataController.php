@@ -64,7 +64,7 @@ class RespDataController extends Controller
     public function getLinksAndAbout () {
         //Get Links From DB
         $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->where('Vendor', '=', $this->vendor)->where('Country','=', $this->country)->get();
-        //var_dump($links,$this->country);
+        var_dump($links,$this->country);
         $this->t_link = $links[0]->T_Link;
         $this->c_link = $links[0]->C_Link;
         $this->q_link = $links[0]->Q_Link;
@@ -185,6 +185,7 @@ class RespDataController extends Controller
                 //Insert the Edited Link to the URL array
                 $url[$i] = $ex;
             }
+            var_dump($url);
         }
         //Redirect to the set redirect links
         if ($this->status === "Complete")
