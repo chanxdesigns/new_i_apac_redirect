@@ -36,7 +36,6 @@ class RespDataController extends Controller
         } elseif (preg_match('/\d{5}\-[A-Z0-9]{16,20}$/i', $respid)) {
 			$this->vendor = 'PL';
         } elseif (preg_match('/([A-Za-z0-9\-\_]){15}/i', $respid)) {
-            var_dump("IPO");
             $this->vendor = 'IPO';
         } else {
 			$this->vendor = substr($respid,13);
