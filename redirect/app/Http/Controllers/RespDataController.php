@@ -32,13 +32,14 @@ class RespDataController extends Controller
 
         // If External ID is present
         if (!empty($_GET['extid'])) {
-            dump($_GET['extid']);
             if (preg_match('/([A-Za-z0-9\-\_]){15}/i', $_GET['extid'])) {
                 $this->vendor = 'IPO';
             }
             elseif (preg_match('/\d{6}[A-Z]\d{10}$/i', $_GET['extid'])) {
                 $this->vendor = 'RICKIE';
             }
+            // Store Ext ID as respid
+            $this->respid = $_GET['extid'];
         }
         else {
             //Check For Hard-Coded Route Vendor ID Presence
