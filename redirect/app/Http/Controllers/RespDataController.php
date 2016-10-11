@@ -29,17 +29,25 @@ class RespDataController extends Controller
         $this->projectid = $projectid;
         $this->respid = $respid;
         $this->country = $country;
-        
-        //Check For Hard-Coded Route Vendor ID Presence
-        if (preg_match('/\d{6}[A-Z]\d{10}$/i', $respid)) {
-			$this->vendor = 'RICKIE';
-        } elseif (preg_match('/\d{5}\-[A-Z0-9]{16,20}$/i', $respid)) {
-			$this->vendor = 'PL';
-        } elseif (preg_match('/([A-Za-z0-9\-\_]){15}/i', $respid)) {
-            $this->vendor = 'IPO';
-        } else {
-			$this->vendor = substr($respid,13);
-		}
+
+        // If External ID is present
+        if (!empty($_GET['extid'])) {
+            if (preg_match('/\d{6}[A-Z]\d{10}$/i', $_GET['extid'])) {
+                $this->vendor = 'RICKIE';
+            }
+        }
+        else {
+            //Check For Hard-Coded Route Vendor ID Presence
+            if (preg_match('/\d{6}[A-Z]\d{10}$/i', $respid)) {
+                $this->vendor = 'RICKIE';
+            } elseif (preg_match('/\d{5}\-[A-Z0-9]{16,20}$/i', $respid)) {
+                $this->vendor = 'PL';
+            } elseif (preg_match('/([A-Za-z0-9\-\_]){15}/i', $respid)) {
+                $this->vendor = 'IPO';
+            } else {
+                $this->vendor = substr($respid,13);
+            }
+        }
 
         //Run the starting function
         if ($this->verifyId()) {
