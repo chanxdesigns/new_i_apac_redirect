@@ -40,7 +40,6 @@ class RespDataController extends Controller
             }
             else {
                 $this->vendor = substr($_GET['extid'], 13);
-                dd($this->vendor);
             }
             // Store Ext ID as respid
             $this->respid = $_GET['extid'];
