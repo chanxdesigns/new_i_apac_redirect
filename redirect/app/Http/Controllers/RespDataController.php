@@ -38,6 +38,10 @@ class RespDataController extends Controller
             elseif (preg_match('/\d{6}[A-Z]\d{10}$/i', $_GET['extid'])) {
                 $this->vendor = 'RICKIE';
             }
+            else {
+                $this->vendor = substr($_GET['extid'], 13);
+                dd($this->vendor);
+            }
             // Store Ext ID as respid
             $this->respid = $_GET['extid'];
         }
