@@ -52,7 +52,10 @@ class RespDataController extends Controller
                 $this->vendor = 'PL';
             } elseif (preg_match('/([A-Za-z0-9\-\_]){15}/i', $respid)) {
                 $this->vendor = 'IPO';
-            } else {
+            } elseif (preg_match('/^\d{8}[A-Za-z]{2}\d{10}$/i', $respid)) {
+                $this->vendor = 'SL';
+            }
+            else {
                 $this->vendor = substr($respid,13);
             }
         }
