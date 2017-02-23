@@ -13,7 +13,7 @@ class CreateStarttimeColumnInRespcounter extends Migration
     public function up()
     {
         Schema::table('resp_counters', function ($table) {
-           $table->timestamp('starttime')->after('IP');
+           $table->timestamp('starttime')->after('IP')->nullable();
         });
     }
 
