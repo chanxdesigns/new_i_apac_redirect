@@ -60,6 +60,8 @@ class RespDataController extends Controller
             }
         }
 
+        //var_dump($this->vendor);
+
         //Run the starting function
         if ($this->verifyId()) {
             $this->storeData();
@@ -103,7 +105,7 @@ class RespDataController extends Controller
             case "JP":
                 $this->country = "Japan";
                 break;
-            case  "ROK":
+            case "ROK":
                 $this->country = "South Korea";
                 break;
             case "PH":
@@ -148,18 +150,22 @@ class RespDataController extends Controller
         }
         //IP Address Of the respondent
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        //{{dump($_SERVER);}}
+
         //Store the respondent project details data to the Resp Counter table
-        RespCounter::create(
-            [
-                "respid" => $this->respid,
-                "projectid" => $this->projectid,
-                "Languageid" => $this->country,
-                "status" => $this->status,
-                "IP" => $ip,
-                "enddate" => Carbon::now()->timezone('Asia/Kolkata')
-            ]
-        );
+        $start_time = DB::table('survey_prestart')->where('user_id', $this->respid)->first();
+        if (count($start_time)) {
+            RespCounter::create(
+                [
+                    "respid" => $this->respid,
+                    "projectid" => $this->projectid,
+                    "Languageid" => $this->country,
+                    "status" => $this->status,
+                    "IP" => $ip,
+                    "starttime" => $start_time->started_on,
+                    "enddate" => Carbon::now()->timezone('Asia/Kolkata')
+                ]
+            );
+        }
     }
 
     /**

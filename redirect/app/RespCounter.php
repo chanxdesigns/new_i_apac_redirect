@@ -15,6 +15,7 @@ class RespCounter extends Model
         'Languageid',
         'status',
         'IP',
+        'starttime',
         'enddate'
     ];
 }
