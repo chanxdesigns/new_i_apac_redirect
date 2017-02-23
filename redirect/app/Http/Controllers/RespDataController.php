@@ -162,7 +162,9 @@ class RespDataController extends Controller
                     "status" => $this->status,
                     "IP" => $ip,
                     "starttime" => $start_time->started_on,
-                    "enddate" => Carbon::now()->timezone('Asia/Kolkata')
+                    "enddate" => Carbon::now()->timezone('Asia/Kolkata'),
+                    "created_at" => Carbon::now()->timezone('Asia/Kolkata'),
+                    "updated_at" => Carbon::now()->timezone('Asia/Kolkata')
                 ]
             );
         }
