@@ -46,17 +46,26 @@ class RespDataController extends Controller
         }
         else {
             //Check For Hard-Coded Route Vendor ID Presence
-            if (preg_match('/^[A-Z0-9]{17}$/i', $respid)) {
-                $this->vendor = 'RICKIE';
-            } elseif (preg_match('/\d{5}\-[A-Z0-9]{16,20}$/i', $respid)) {
-                $this->vendor = 'PL';
-            } elseif (preg_match('/^([A-Za-z0-9\-\_]){15}$/i', $respid)) {
-                $this->vendor = 'IPO';
-            } elseif (preg_match('/^\d{8}[A-Za-z]{2}\d{10}$/i', $respid)) {
-                $this->vendor = 'SL';
-            }
-            else {
-                $this->vendor = substr($respid,13);
+//            if (preg_match('/^[A-Z0-9]{17}$/i', $respid)) {
+//                $this->vendor = 'RICKIE';
+//            } elseif (preg_match('/\d{5}\-[A-Z0-9]{16,20}$/i', $respid)) {
+//                $this->vendor = 'PL';
+//            } elseif (preg_match('/^([A-Za-z0-9\-\_]){15}$/i', $respid)) {
+//                $this->vendor = 'IPO';
+//            } elseif (preg_match('/^\d{8}[A-Za-z]{2}\d{10}$/i', $respid)) {
+//                $this->vendor = 'SL';
+//            }
+//            else {
+//                $this->vendor = substr($respid,13);
+//            }
+            $uid = DB::table('survey_prestart')
+                ->where('project_id', $this->projectid)
+                ->where('user_id', $this->respid)
+                ->where('country', $this->country)
+                ->first();
+
+            if (count($uid)) {
+                $this->vendor = $uid->vendor;
             }
         }
 
