@@ -153,7 +153,7 @@ class RespDataController extends Controller
                 break;
         }
         //IP Address Of the respondent
-        $ip = 11;//$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 
         //Store the respondent project details data to the Resp Counter table
         $start_time = DB::table('survey_prestart')->where('user_id', $this->respid)->first();
