@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\ProjectsList;
 use App\RespCounter;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 
 class RespDataController extends Controller
@@ -21,6 +17,7 @@ class RespDataController extends Controller
     private $t_link;
     private $c_link;
     private $q_link;
+    private $d_link;
 
     //Main Function
     public function main ($status,$projectid,$respid,$country) {
@@ -69,13 +66,11 @@ class RespDataController extends Controller
             }
         }
 
-        //var_dump($this->vendor);
-
         //Run the starting function
         if ($this->verifyId()) {
             $this->storeData();
             $this->getLinksAndAbout();
-            $this->prjUpdate();
+            //$this->prjUpdate();
             return $this->redirect();
         }
     }
@@ -158,7 +153,7 @@ class RespDataController extends Controller
                 break;
         }
         //IP Address Of the respondent
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ip = 11;//$_SERVER['HTTP_X_FORWARDED_FOR'];
 
         //Store the respondent project details data to the Resp Counter table
         $start_time = DB::table('survey_prestart')->where('user_id', $this->respid)->first();
@@ -182,32 +177,32 @@ class RespDataController extends Controller
     /**
      * Project related sheet update
      */
-    public function prjUpdate () {
-        $status = "";
-
-        switch($this->status) {
-            case "Complete":
-                $status = "Completes";
-                break;
-            case "Incomplete":
-                $status = "Terminates";
-                break;
-            case "Quotafull":
-                $status = "Quotafull";
-                break;
-        }
-
-        $count = ProjectsList::where('Project ID','=',$this->projectid)->value($status);
-        ProjectsList::where('Project ID','=',$this->projectid)->update([$status => $count + 1]);
-    }
+//    public function prjUpdate () {
+//        $status = "";
+//
+//        switch($this->status) {
+//            case "Complete":
+//                $status = "Completes";
+//                break;
+//            case "Incomplete":
+//                $status = "Terminates";
+//                break;
+//            case "Quotafull":
+//                $status = "Quotafull";
+//                break;
+//        }
+//
+//        $count = ProjectsList::where('Project ID','=',$this->projectid)->value($status);
+//        ProjectsList::where('Project ID','=',$this->projectid)->update([$status => $count + 1]);
+//    }
 
     /**
      * Redirect to the redirect link
      */
     public function redirect () {
-        if (!empty($this->c_link) || !empty($this->q_link) || !empty($this->t_link)) {
+        if (!empty($this->c_link) || !empty($this->q_link) || !empty($this->t_link) || !empty($this->d_link)) {
             //Store the links in URL Array
-            $url = [$this->c_link, $this->q_link, $this->t_link];
+            $url = [$this->c_link, $this->q_link, $this->t_link, $this->d_link];
             //Edit the links to accept User ID and Project ID
             for ($i = 0; $i < count($url); $i++) {
                 //Get Individual URL form the array
@@ -244,6 +239,27 @@ class RespDataController extends Controller
                 return redirect()->route('quotafull',[$this->respid]);
             } else {
                 return redirect()->away($url[1]);
+            }
+        } elseif ($this->status === "Drop_Off")
+        {
+            if (empty($this->d_link)) {
+                return redirect()->away($url[2]);
+            } else {
+                return redirect()->away($url[2]);
+            }
+        } elseif ($this->status === "Mobile_Term")
+        {
+            if (empty($this->d_link)) {
+                return redirect()->away($url[2]);
+            } else {
+                return redirect()->away($url[2]);
+            }
+        } elseif ($this->status === "Security_Term")
+        {
+            if (empty($this->d_link)) {
+                return redirect()->away($url[2]);
+            } else {
+                return redirect()->away($url[2]);
             }
         }
     }
