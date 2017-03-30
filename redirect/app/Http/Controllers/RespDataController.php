@@ -203,6 +203,7 @@ class RespDataController extends Controller
         if (!empty($this->c_link) || !empty($this->q_link) || !empty($this->t_link) || !empty($this->d_link)) {
             //Store the links in URL Array
             $url = [$this->c_link, $this->q_link, $this->t_link, $this->d_link];
+
             //Edit the links to accept User ID and Project ID
             for ($i = 0; $i < count($url); $i++) {
                 //Get Individual URL form the array
@@ -219,6 +220,7 @@ class RespDataController extends Controller
             //var_dump($url);
         }
         //Redirect to the set redirect links
+        dd($url);
         if ($this->status === "Complete")
         {
             if (empty($this->c_link)) {
