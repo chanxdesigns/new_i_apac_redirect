@@ -233,7 +233,7 @@ class RespDataController extends Controller
             //var_dump($url);
         }
         //Redirect to the set redirect links
-        dd($url);
+        //dd($url);
         if ($this->status === "Complete")
         {
             if (empty($this->c_link)) {
