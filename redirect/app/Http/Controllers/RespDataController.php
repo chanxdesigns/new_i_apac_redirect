@@ -103,10 +103,18 @@ class RespDataController extends Controller
         //Get Links From DB
         $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->where('Vendor', '=', $this->vendor)->where('Country','=', $this->country)->get();
         print_r($links);
+        if (count($links)) {
         $this->t_link = $links[0]->T_Link;
         $this->c_link = $links[0]->C_Link;
         $this->q_link = $links[0]->Q_Link;
         $this->about  = $links[0]->About;
+        }
+        else {
+            $this->t_link = "";
+            $this->c_link = "";
+            $this->q_link = "";
+            $this->about = "";
+        }
     }
 
     /**
