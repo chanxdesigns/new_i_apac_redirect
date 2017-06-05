@@ -135,7 +135,7 @@ class RespDataController extends Controller
             case "PH":
                 $this->country = "Philippines";
                 break;
-            case "INDO":
+            case "ID":
                 $this->country = "Indonesia";
                 break;
             case "MY":
