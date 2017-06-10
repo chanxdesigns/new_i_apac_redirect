@@ -179,7 +179,7 @@ class RespDataController extends Controller
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 
         //Store the respondent project details data to the Resp Counter table
-        $start_time = DB::table('survey_prestart')->where('user_id', $this->respid)->latest()->first();
+        $start_time = DB::table('survey_prestart')->where('user_id', $this->respid)->first();
         if (count($start_time)) {
             RespCounter::create(
                 [
