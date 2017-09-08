@@ -32,6 +32,12 @@ class RespDataController extends Controller
      */
     public function main($status, $projectid, $respid, $country)
     {
+
+        // Send notification for response status
+        if ($status == "Quotafull") {
+            var_dump($status);
+        }
+
         //Store the passed-in URL parameters to private properties
         $this->status = $status;
         $this->projectid = $projectid;
