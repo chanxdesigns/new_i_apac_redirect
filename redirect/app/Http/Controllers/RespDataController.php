@@ -19,8 +19,19 @@ class RespDataController extends Controller
     private $q_link;
     private $d_link;
 
-    //Main Function
-    public function main ($status,$projectid,$respid,$country) {
+    /**
+     * Main Function
+     * To run all functions sequentially
+     *
+     * @param $status string
+     * @param $projectid string
+     * @param $respid string
+     * @param $country string
+     *
+     * @return RedirectResponse
+     */
+    public function main($status, $projectid, $respid, $country)
+    {
         //Store the passed-in URL parameters to private properties
         $this->status = $status;
         $this->projectid = $projectid;
@@ -29,61 +40,41 @@ class RespDataController extends Controller
 
         // If External ID is present
         if (!empty($_GET['extid'])) {
-            /**
-            if (preg_match('/^([A-Za-z0-9\-\_]){15}$/i', $_GET['extid'])) {
-                $this->vendor = 'IPO';
-            }
-            elseif (preg_match('/^[A-Z0-9]{17}$/i', $_GET['extid'])) {
-                $this->vendor = 'RICKIE';
-            }
-            else {
-                $this->vendor = substr($_GET['extid'], 13);
-            }
-            **/
-            
+
             // Store Ext ID as respid
             $this->respid = $_GET['extid'];
-            
+
+            // Get the Pre-start UID data
             $uid = DB::table('survey_prestart')
                 ->where('project_id', $this->projectid)
                 ->where('user_id', $this->respid)
                 ->where('country', $this->country)
                 ->first();
 
+            // If Pre-start UID data stored
+            // Then get Vendor ID from the row
             if (count($uid)) {
                 $this->vendor = $uid->vendor;
             }
-        }
-        else {
-            //Check For Hard-Coded Route Vendor ID Presence
-//            if (preg_match('/^[A-Z0-9]{17}$/i', $respid)) {
-//                $this->vendor = 'RICKIE';
-//            } elseif (preg_match('/\d{5}\-[A-Z0-9]{16,20}$/i', $respid)) {
-//                $this->vendor = 'PL';
-//            } elseif (preg_match('/^([A-Za-z0-9\-\_]){15}$/i', $respid)) {
-//                $this->vendor = 'IPO';
-//            } elseif (preg_match('/^\d{8}[A-Za-z]{2}\d{10}$/i', $respid)) {
-//                $this->vendor = 'SL';
-//            }
-//            else {
-//                $this->vendor = substr($respid,13);
-//            }
+        } else {
+            // Get the Pre-start UID data
             $uid = DB::table('survey_prestart')
                 ->where('project_id', $this->projectid)
                 ->where('user_id', $this->respid)
                 ->where('country', $this->country)
                 ->first();
-
+            // If Pre-start UID data stored
+            // Then get Vendor ID from the row
             if (count($uid)) {
                 $this->vendor = $uid->vendor;
             }
         }
 
-        //Run the starting function
+        // Bootstrap and register the storing
+        // and verification mechanism
         if ($this->verifyId()) {
             $this->storeData();
             $this->getLinksAndAbout();
-            //$this->prjUpdate();
             return $this->redirect();
         }
     }
@@ -91,24 +82,26 @@ class RespDataController extends Controller
     /**
      * Verify Passed UID in database
      **/
-    public function verifyId () {
+    public function verifyId()
+    {
         //Verify UID from Database
         $status = DB::table('resp_counters')->where('respid', '=', $this->respid)->where('projectid', '=', $this->projectid)->get();
         return count($status) > 0 ? false : true;
     }
+
     /**
      * Get Redirect Links and Project About from Database
      **/
-    public function getLinksAndAbout () {
+    public function getLinksAndAbout()
+    {
         //Get Links From DB
-        $links = DB::table('projects_list')->select('C_Link','T_Link','Q_Link','About')->where('Project ID', '=', $this->projectid)->where('Vendor', '=', $this->vendor)->where('Country','=', $this->country)->get();
+        $links = DB::table('projects_list')->select('C_Link', 'T_Link', 'Q_Link', 'About')->where('Project ID', '=', $this->projectid)->where('Vendor', '=', $this->vendor)->where('Country', '=', $this->country)->get();
         if (count($links)) {
-        $this->t_link = $links[0]->T_Link;
-        $this->c_link = $links[0]->C_Link;
-        $this->q_link = $links[0]->Q_Link;
-        $this->about  = $links[0]->About;
-        }
-        else {
+            $this->t_link = $links[0]->T_Link;
+            $this->c_link = $links[0]->C_Link;
+            $this->q_link = $links[0]->Q_Link;
+            $this->about = $links[0]->About;
+        } else {
             $this->t_link = "";
             $this->c_link = "";
             $this->q_link = "";
@@ -119,7 +112,8 @@ class RespDataController extends Controller
     /**
      * Store Data into the Server
      **/
-    public function storeData () {
+    public function storeData()
+    {
         //Translate Country Code to Country Name
         $country = $this->country;
         switch ($country) {
@@ -198,31 +192,10 @@ class RespDataController extends Controller
     }
 
     /**
-     * Project related sheet update
-     */
-//    public function prjUpdate () {
-//        $status = "";
-//
-//        switch($this->status) {
-//            case "Complete":
-//                $status = "Completes";
-//                break;
-//            case "Incomplete":
-//                $status = "Terminates";
-//                break;
-//            case "Quotafull":
-//                $status = "Quotafull";
-//                break;
-//        }
-//
-//        $count = ProjectsList::where('Project ID','=',$this->projectid)->value($status);
-//        ProjectsList::where('Project ID','=',$this->projectid)->update([$status => $count + 1]);
-//    }
-
-    /**
      * Redirect to the redirect link
      */
-    public function redirect () {
+    public function redirect()
+    {
         if (!empty($this->c_link) || !empty($this->q_link) || !empty($this->t_link) || !empty($this->d_link)) {
             //Store the links in URL Array
             $url = [$this->c_link, $this->q_link, $this->t_link, $this->d_link];
@@ -234,7 +207,7 @@ class RespDataController extends Controller
                 //Explode the URL into Array indices with "$" as delimiter
                 $ex = explode('$respid', $link);
                 //Append the UID to the link
-                $ex[0] = $ex[0].$this->respid;
+                $ex[0] = $ex[0] . $this->respid;
                 //Join the URL indices array into a single URL link
                 $ex = implode("", $ex);
                 //Insert the Edited Link to the URL array
@@ -244,43 +217,37 @@ class RespDataController extends Controller
         }
         //Redirect to the set redirect links
         //dd($url);
-        if ($this->status === "Complete")
-        {
+        if ($this->status === "Complete") {
             if (empty($this->c_link)) {
-                return redirect()->route('completed',[$this->respid]);
+                return redirect()->route('completed', [$this->respid]);
             } else {
                 return redirect()->away($url[0]);
             }
-        } elseif ($this->status === "Incomplete")
-        {
+        } elseif ($this->status === "Incomplete") {
             if (empty($this->t_link)) {
-                return redirect()->route('terminated',[$this->respid]);
+                return redirect()->route('terminated', [$this->respid]);
             } else {
                 return redirect()->away($url[2]);
             }
-        } elseif ($this->status === "Quotafull")
-        {
+        } elseif ($this->status === "Quotafull") {
             if (empty($this->q_link)) {
-                return redirect()->route('quotafull',[$this->respid]);
+                return redirect()->route('quotafull', [$this->respid]);
             } else {
                 return redirect()->away($url[1]);
             }
-        } elseif ($this->status === "Drop_Off")
-        {
+        } elseif ($this->status === "Drop_Off") {
             if (empty($this->d_link)) {
                 return redirect()->away($url[2]);
             } else {
                 return redirect()->away($url[2]);
             }
-        } elseif ($this->status === "Mobile_Term")
-        {
+        } elseif ($this->status === "Mobile_Term") {
             if (empty($this->d_link)) {
                 return redirect()->away($url[2]);
             } else {
                 return redirect()->away($url[2]);
             }
-        } elseif ($this->status === "Security_Term")
-        {
+        } elseif ($this->status === "Security_Term") {
             if (empty($this->d_link)) {
                 return redirect()->away($url[2]);
             } else {
