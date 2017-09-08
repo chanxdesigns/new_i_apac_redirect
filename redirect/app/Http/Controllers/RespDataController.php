@@ -36,7 +36,23 @@ class RespDataController extends Controller
         // Send notification for response status
         if ($status == "Quotafull") {
             $client = new \Maknz\Slack\Client('https://hooks.slack.com/services/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');
-            $client->send("Yo Bro");
+            $client->attach([
+                'fallback' => 'Current server stats',
+                'text' => 'Current server stats',
+                'color' => 'danger',
+                'fields' => [
+                    [
+                        'title' => 'CPU usage',
+                        'value' => '90%',
+                        'short' => true // whether the field is short enough to sit side-by-side other fields, defaults to false
+                    ],
+                    [
+                        'title' => 'RAM usage',
+                        'value' => '2.5GB of 4GB',
+                        'short' => true
+                    ]
+                ]
+            ])->send('New alert from the monitoring system');
         }
 
         //Store the passed-in URL parameters to private properties
