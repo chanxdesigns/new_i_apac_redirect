@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\RespCounter;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Maknz\Slack\Facades\Slack;
 
 class RespDataController extends Controller
 {
@@ -36,7 +35,8 @@ class RespDataController extends Controller
 
         // Send notification for response status
         if ($status == "Quotafull") {
-            Slack::send('Hello ' .$status);
+            $client = new \Maknz\Slack\Client('https://hooks.slack.com/services/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');
+            $client->send("Yo Bro");
         }
 
         //Store the passed-in URL parameters to private properties
