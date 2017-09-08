@@ -35,7 +35,7 @@ class RespDataController extends Controller
 
         // Send notification for response status
         if ($status == "Quotafull") {
-            var_dump($status);
+            dump($status);
         }
 
         //Store the passed-in URL parameters to private properties
