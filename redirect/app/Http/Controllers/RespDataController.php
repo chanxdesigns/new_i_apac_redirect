@@ -57,7 +57,7 @@ class RespDataController extends Controller
                         'short' => true
                     ]
                 ]
-            ])->send("*".$projectid." ".$country."* - Quotafull Alerts");
+            ])->send("*".$projectid."* - Quotafull Alerts");
         }
 
         //Store the passed-in URL parameters to private properties
