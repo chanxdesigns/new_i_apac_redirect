@@ -63,6 +63,7 @@ class RespDataController extends Controller
                 ->where('user_id', $this->respid)
                 ->where('country', $this->country)
                 ->first();
+
             // If Pre-start UID data stored
             // Then get Vendor ID from the row
             if (count($uid)) {
