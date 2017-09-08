@@ -32,6 +32,34 @@ class RespDataController extends Controller
      */
     public function main($status, $projectid, $respid, $country)
     {
+
+        // Send notification for response status
+        if ($status == "Quotafull") {
+            $client = new \Maknz\Slack\Client('https://hooks.slack.com/services/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');
+            $client->attach([
+                'fallback' => 'Current Quotafull Details',
+                'text' => 'Current Quotafull Details',
+                'color' => 'warning',
+                'fields' => [
+                    [
+                        'title' => 'Project ID',
+                        'value' => $projectid,
+                        'short' => true // whether the field is short enough to sit side-by-side other fields, defaults to false
+                    ],
+                    [
+                        'title' => 'Resp ID',
+                        'value' => $respid,
+                        'short' => true
+                    ],
+                    [
+                        'title' => 'Country',
+                        'value' => $this->makeCountry($country),
+                        'short' => true
+                    ]
+                ]
+            ])->send("*".$projectid."* - Quotafull Alerts");
+        }
+
         //Store the passed-in URL parameters to private properties
         $this->status = $status;
         $this->projectid = $projectid;
@@ -63,6 +91,7 @@ class RespDataController extends Controller
                 ->where('user_id', $this->respid)
                 ->where('country', $this->country)
                 ->first();
+
             // If Pre-start UID data stored
             // Then get Vendor ID from the row
             if (count($uid)) {
@@ -107,6 +136,64 @@ class RespDataController extends Controller
             $this->q_link = "";
             $this->about = "";
         }
+    }
+
+    public function makeCountry ($country) {
+        switch ($country) {
+            case "ZH":
+                $this->country = "China";
+                break;
+            case "JP":
+                $this->country = "Japan";
+                break;
+            case "ROK":
+                $this->country = "South Korea";
+                break;
+            case "PH":
+                $this->country = "Philippines";
+                break;
+            case "ID":
+                $this->country = "Indonesia";
+                break;
+            case "MY":
+                $this->country = "Malaysia";
+                break;
+            case "VN":
+                $this->country = "Vietnam";
+                break;
+            case "IN":
+                $this->country = "India";
+                break;
+            case "TH":
+                $this->country = "Thailand";
+                break;
+            case "HK":
+                $this->country = "Hong Kong";
+                break;
+            case "SG":
+                $this->country = "Singapore";
+                break;
+            case "UAE":
+                $this->country = "UAE";
+                break;
+            case "KSA":
+                $this->country = "Saudi Arabia";
+                break;
+            case "JO":
+                $this->country = "Jordan";
+                break;
+            case "SA":
+                $this->country = "South Africa";
+                break;
+            case "AUS":
+                $this->country = "Australia";
+                break;
+            case "TW":
+                $this->country = "Taiwan";
+                break;
+        }
+
+        return $this->country;
     }
 
     /**
