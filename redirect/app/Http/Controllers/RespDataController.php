@@ -197,6 +197,14 @@ class RespDataController extends Controller
     }
 
     /**
+     * Get City
+     */
+    protected function getCity($ip = '') {
+        $new_ip = explode(",", $ip)[0];
+        return unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$new_ip));
+    }
+
+    /**
      * Store Data into the Server
      **/
     public function storeData()
@@ -267,6 +275,7 @@ class RespDataController extends Controller
                     "respid" => $this->respid,
                     "projectid" => $this->projectid,
                     "Languageid" => $this->country,
+                    "city" => $this->getCity($ip)["geoplugin_city"],
                     "status" => $this->status,
                     "IP" => $ip,
                     "starttime" => $start_time->started_on,
