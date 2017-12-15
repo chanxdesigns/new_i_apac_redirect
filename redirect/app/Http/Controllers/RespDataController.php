@@ -197,6 +197,13 @@ class RespDataController extends Controller
     }
 
     /**
+     * Get City
+     */
+    protected function getCity($ip = '') {
+        return unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$ip));
+    }
+
+    /**
      * Store Data into the Server
      **/
     public function storeData()
@@ -259,6 +266,8 @@ class RespDataController extends Controller
         //IP Address Of the respondent
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 
+        var_dump($this->getCity($ip)["geoplugin_city"]);
+
         //Store the respondent project details data to the Resp Counter table
         $start_time = DB::table('survey_prestart')->where('user_id', $this->respid)->latest("started_on")->first();
         if (count($start_time)) {
@@ -267,6 +276,7 @@ class RespDataController extends Controller
                     "respid" => $this->respid,
                     "projectid" => $this->projectid,
                     "Languageid" => $this->country,
+                    "city" => $this->getCity($ip)["geoplugin_city"],
                     "status" => $this->status,
                     "IP" => $ip,
                     "starttime" => $start_time->started_on,
